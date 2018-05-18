@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.axellience</groupId>
+  <artifactId>gitTest</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Maven Archetype for GWT</name>
+
+  <properties>
+    <!-- Convenience property to set the GWT version -->
+    <gwt.version>2.8.2</gwt.version>
+
+    <!-- GWT 2.8 requires 1.8 -->
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.google.gwt</groupId>
+        <artifactId>gwt</artifactId>
+        <version>${gwt.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-servlet</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-user</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-dev</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.axellience</groupId>
+        <artifactId>vue-gwt-processors</artifactId>
+        <version>1.0-beta-7</version>
+        <optional>true</optional>
+  	</dependency>
+  </dependencies>
+
+  <profiles>
+    <profile>
+        <id>vue-gwt-resources</id>
+        <activation>
+            <property>
+                <name>!m2e.version</name>
+            </property>
+        </activation>
+        <build>
+		    <!-- Output classes directly into the webapp, so that IDEs and "mvn process-classes" update them in DevMode -->
+		    <plugins>
+		
+		      <!-- Mojo's Maven Plugin for GWT -->
+		      <plugin>
+		        <groupId>org.codehaus.mojo</groupId>
+		        <artifactId>gwt-maven-plugin</artifactId>
+		        <version>2.8.2</version>
+		        <executions>
+		          <execution>
+		            <goals>
+		              <goal>compile</goal>
+		              <goal>test</goal>
+		              <goal>generateAsync</goal>
+		            </goals>
+		          </execution>
+		        </executions>
+		        <!-- Plugin configuration. There are many available options, see 
+		          gwt-maven-plugin documentation at codehaus.org -->
+		        <configuration>
+		          <runTarget>GitTest.html</runTarget>
+		          <modules>
+		            <module>com.axellience.client.GitTest</module>
+		          </modules>
+		          <generateJsInteropExports>true</generateJsInteropExports>
+		        </configuration>
+		      </plugin>
+		      
+		      <plugin>
+		            <groupId>org.apache.maven.plugins</groupId>
+		            <artifactId>maven-compiler-plugin</artifactId>
+		            <version>3.3</version>
+		            <configuration>
+		                <compilerArgument>-parameters</compilerArgument>
+		                <testCompilerArgument>-parameters</testCompilerArgument>
+		                <useIncrementalCompilation>false</useIncrementalCompilation>
+		                <source>1.8</source>
+		                <target>1.8</target>
+		            </configuration>
+		      </plugin>   
+		    </plugins>
+        	<resources>
+                <resource>
+                    <directory>src/main/java</directory>
+                </resource>
+        	</resources>
+        	</build>
+    	</profile>
+	</profiles>
+
+</project>
