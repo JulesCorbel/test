@@ -1,5 +1,6 @@
 package com.axellience.client;
 
+import com.axellience.vuegwt.core.client.Vue;
 import com.axellience.vuegwt.core.client.VueGWT;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -28,5 +29,6 @@ public class GitTest implements EntryPoint {
    */
   public void onModuleLoad() {
    VueGWT.init();
+   Vue.attach("#app", AppComponent.class);
   }
 }
